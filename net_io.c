@@ -820,12 +820,12 @@ static int decodeBinMessage(struct client *c, char *p) {
 //
 //=========================================================================
 //
-// Turn an hex digit into its 4 bit decimal value.
+// Turn a case-insensitive hex digit into its 4 bit decimal value.
 // Returns -1 if the digit is not in the 0-F range.
 //
 static int hexDigitVal(int c) {
-    c = tolower(c);
     if (c >= '0' && c <= '9') return c-'0';
+    else if (c >= 'A' && c <= 'F') return c-'A'+10;
     else if (c >= 'a' && c <= 'f') return c-'a'+10;
     else return -1;
 }
