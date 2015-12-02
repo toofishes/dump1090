@@ -444,6 +444,17 @@ static void send_beast_heartbeat(struct net_service *service)
 //
 //=========================================================================
 //
+// Print the two hex digits to a string for a single byte.
+//
+static void printHexDigit(char *p, unsigned char c) {
+    const char hex_lookup[] = "0123456789ABCDEF";
+    p[0] = hex_lookup[(c >> 4) & 0x0F];
+    p[1] = hex_lookup[c & 0x0F];
+}
+
+//
+//=========================================================================
+//
 // Write raw output to TCP clients
 //
 static void modesSendRawOutput(struct modesMessage *mm) {
@@ -464,7 +475,7 @@ static void modesSendRawOutput(struct modesMessage *mm) {
         *p++ = '*';
 
     for (j = 0; j < msgLen; j++) {
-        sprintf(p, "%02X", msg[j]);
+        printHexDigit(p, msg[j]);
         p += 2;
     }
 
