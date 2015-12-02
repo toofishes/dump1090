@@ -163,7 +163,7 @@ void modesInitConfig(void) {
 //
 //=========================================================================
 //
-void modesInit(void) {
+static void modesInit(void) {
     int i, q;
 
     pthread_mutex_init(&Modes.data_mutex,NULL);
@@ -274,7 +274,7 @@ static void convert_samples(void *iq,
 //
 // =============================== RTLSDR handling ==========================
 //
-int modesInitRTLSDR(void) {
+static int modesInitRTLSDR(void) {
     int j;
     int device_count, dev_index = 0;
     char vendor[256], product[256], serial[256];
@@ -487,7 +487,7 @@ void rtlsdrCallback(unsigned char *buf, uint32_t len, void *ctx) {
 // This is used when --ifile is specified in order to read data from file
 // instead of using an RTLSDR device
 //
-void readDataFromFile(void) {
+static void readDataFromFile(void) {
     int eof = 0;
     struct timespec next_buffer_delivery;
     void *readbuf;
@@ -594,7 +594,7 @@ void readDataFromFile(void) {
 // without caring about data acquisition
 //
 
-void *readerThreadEntryPoint(void *arg) {
+static void *readerThreadEntryPoint(void *arg) {
     MODES_NOTUSED(arg);
 
     start_cpu_timing(&reader_thread_start); // we accumulate in rtlsdrCallback() or readDataFromFile()
@@ -643,7 +643,7 @@ void *readerThreadEntryPoint(void *arg) {
 // Get raw IQ samples and filter everything is < than the specified level
 // for more than 256 samples in order to reduce example file size
 //
-void snipMode(int level) {
+static void snipMode(int level) {
     int i, q;
     uint64_t c = 0;
 
@@ -661,7 +661,7 @@ void snipMode(int level) {
 //
 // ================================ Main ====================================
 //
-void showHelp(void) {
+static void showHelp(void) {
     printf(
 "-----------------------------------------------------------------------------\n"
 "| dump1090 ModeS Receiver     %45s |\n"
@@ -749,7 +749,7 @@ static void display_total_stats(void)
 // perform tasks we need to do continuously, like accepting new clients
 // from the net, refreshing the screen in interactive mode, and so forth
 //
-void backgroundTasks(void) {
+static void backgroundTasks(void) {
     static uint64_t next_stats_display;
     static uint64_t next_stats_update;
     static uint64_t next_json, next_history;
@@ -848,7 +848,7 @@ void backgroundTasks(void) {
 //
 //=========================================================================
 //
-int verbose_device_search(char *s)
+static int verbose_device_search(char *s)
 {
 	int i, device_count, device, offset;
 	char *s2;
