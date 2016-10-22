@@ -1,15 +1,15 @@
 "use strict";
 
 function PlaneObject(icao) {
-	// Info about the plane
+        // Info about the plane
         this.icao      = icao;
         this.icaorange = findICAORange(icao);
         this.flight    = null;
-	this.squawk    = null;
-	this.selected  = false;
+        this.squawk    = null;
+        this.selected  = false;
         this.category  = null;
 
-	// Basic location information
+        // Basic location information
         this.altitude  = null;
         this.speed     = null;
         this.track     = null;
@@ -18,15 +18,15 @@ function PlaneObject(icao) {
         this.position_from_mlat = false
         this.sitedist  = null;
 
-	// Data packet numbers
-	this.messages  = null;
+        // Data packet numbers
+        this.messages  = null;
         this.rssi      = null;
 
         // Track history as a series of line segments
         this.track_linesegs = [];
         this.history_size = 0;
 
-	// When was this last updated (receiver timestamp)
+        // When was this last updated (receiver timestamp)
         this.last_message_time = null;
         this.last_position_time = null;
 
@@ -46,11 +46,11 @@ function PlaneObject(icao) {
 
         // start from a computed registration, let the DB override it
         // if it has something else.
-        this.registration = registration_from_hexid(this.icao);
+        this.registration = registration_from_hexid(icao);
         this.icaotype = null;
 
         // request metadata
-        getAircraftData(this.icao).done(function(data) {
+        getAircraftData(icao).done(function(data) {
                 if ("r" in data) {
                         this.registration = data.r;
                 }
@@ -60,7 +60,7 @@ function PlaneObject(icao) {
                 }
 
                 if (this.selected) {
-		        refreshSelected();
+                        refreshSelected();
                 }
         }.bind(this));
 }

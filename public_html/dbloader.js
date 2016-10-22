@@ -30,6 +30,9 @@ function getAircraftData(icao) {
 
         if (icao in _aircraft_cache) {
                 defer = _aircraft_cache[icao];
+        } else if (icao.startsWith('~')) {
+                defer = _aircraft_cache[icao] = $.Deferred();
+                defer.reject();
         } else {
                 // load from blocks:
                 defer = _aircraft_cache[icao] = $.Deferred();

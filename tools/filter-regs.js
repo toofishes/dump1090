@@ -24,7 +24,7 @@ var parser = csv.parse({columns: true});
 var writer = csv.stringify({header: true});
 var transformer = csv.transform(function (record, callback) {
         if (('icao24' in record) && ('r' in record)) {
-                var computed = reglookup(record.icao24);
+                var computed = reglookup.registration_from_hexid(record.icao24);
                 if (computed === record.r) {
                         record.r = '';
                 } else if (computed !== null) {

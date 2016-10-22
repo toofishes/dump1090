@@ -1,3 +1,5 @@
+"use strict";
+
 // Various reverse-engineered versions of the allocation algorithms
 // used by different countries to allocate 24-bit ICAO addresses based
 // on the aircraft registration.
@@ -7,7 +9,7 @@
 // spot-checking aircraft to see if it worked.
 // YMMV.
 
-registration_from_hexid = (function () {
+var registration_from_hexid = (function () {
         // hide the guts in a closure
 
         var limited_alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ"; // 24 chars; no I, O
@@ -106,9 +108,13 @@ registration_from_hexid = (function () {
         }
 
         function lookup(hexid) {
+                if (hexid.startsWith('~')) {
+                        return null;
+                }
+
                 var hexid = +("0x" + hexid);
 
-                reg = n_reg(hexid);
+                var reg = n_reg(hexid);
                 if (reg)
                         return reg;
 
@@ -311,5 +317,5 @@ registration_from_hexid = (function () {
 
 // make nodejs happy:
 if (typeof module !== 'undefined') {
-        module.exports = registration_from_hexid;
+        module.exports.registration_from_hexid = registration_from_hexid;
 }

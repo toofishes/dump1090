@@ -675,7 +675,15 @@ function refreshSelected() {
         $('#dump1090_infoblock').css('display','none');
         $('#selected_infoblock').css('display','block');
 
-        $('#selected_flightaware_link').attr('href','//flightaware.com/live/modes/'+selected.icao+'/redirect');
+        // Non-ICAO address
+        if (!selected.icao.startsWith('~')) {
+                $('#selected_airframes_link').css('display','inline');
+                $('#selected_flightaware_link').css('display','inline');
+                $('#selected_flightaware_link').attr('href','//flightaware.com/live/modes/'+selected.icao+'/redirect');
+        } else {
+                $('#selected_airframes_link').css('display','none');
+                $('#selected_flightaware_link').css('display','none');
+        }
         
         if (selected.flight !== null && selected.flight !== "") {
                 $('#selected_callsign').text(selected.flight);
@@ -690,6 +698,9 @@ function refreshSelected() {
 
         if (selected.registration !== null) {
                 $('#selected_registration').text(selected.registration);
+        } else if (selected.icao.startsWith('~')) {
+                // We didn't show the airframes link, so put the ICAO addr here instead
+                $('#selected_registration').text(selected.icao);
         } else {
                 $('#selected_registration').text("");
         }
@@ -715,11 +726,11 @@ function refreshSelected() {
         } else {
                 $('#selected_squawk').text(selected.squawk);
         }
-	
+
         $('#selected_speed').text(format_speed_long(selected.speed));
         $('#selected_icao').text(selected.icao.toUpperCase());
-        $('#airframes_post_icao').attr('value',selected.icao);
-	$('#selected_track').text(format_track_long(selected.track));
+        $('#airframes_post_icao').attr('value', selected.icao);
+        $('#selected_track').text(format_track_long(selected.track));
 
         if (selected.seen <= 1) {
                 $('#selected_seen').text('now');
@@ -736,7 +747,7 @@ function refreshSelected() {
                 $('#selected_flag').addClass('hidden');
         }
 
-	if (selected.position === null) {
+        if (selected.position === null) {
                 $('#selected_position').text('n/a');
                 $('#selected_follow').addClass('hidden');
         } else {
@@ -753,7 +764,7 @@ function refreshSelected() {
                 } else {
                         $('#selected_follow').css('font-weight', 'normal');
                 }
-	}
+        }
         
         $('#selected_sitedist').text(format_distance_long(selected.sitedist));
         $('#selected_rssi').text(selected.rssi.toFixed(1) + ' dBFS');

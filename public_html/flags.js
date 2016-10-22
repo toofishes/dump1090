@@ -221,7 +221,11 @@ var unassigned_range = {
 // return an object describing that ICAO range.
 // Always returns a non-null object.
 //   (todo: binary search)
-function findICAORange(icao) {
+var findICAORange = function(icao) {
+        if (icao.startsWith('~')) {
+                return unassigned_range;
+        }
+
         var hexa = +("0x" + icao);
 
         for (var i = 0; i < ICAO_Ranges.length; ++i) {
@@ -231,4 +235,9 @@ function findICAORange(icao) {
         }
 
         return unassigned_range;
+}
+
+// make nodejs happy:
+if (typeof module !== 'undefined') {
+        module.exports.findICAORange = findICAORange;
 }
