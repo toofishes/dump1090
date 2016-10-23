@@ -58,7 +58,7 @@ static inline int slice_phase4(uint16_t *m) {
 //
 void demodulate2400(struct mag_buf *mag)
 {
-    static struct modesMessage zeroMessage;
+    static const struct modesMessage zeroMessage;
     struct modesMessage mm;
     unsigned char msg1[MODES_LONG_MSG_BYTES], msg2[MODES_LONG_MSG_BYTES], *msg;
     uint32_t j;

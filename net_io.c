@@ -754,10 +754,8 @@ static int decodeBinMessage(struct client *c, char *p) {
     int  j;
     char ch;
     unsigned char msg[MODES_LONG_MSG_BYTES];
-    static struct modesMessage zeroMessage;
-    struct modesMessage mm;
+    struct modesMessage mm = { 0 };
     MODES_NOTUSED(c);
-    memset(&mm, 0, sizeof(mm));
 
     ch = *p++; /// Get the message type
     if (0x1A == ch) {p++;} 
@@ -771,11 +769,9 @@ static int decodeBinMessage(struct client *c, char *p) {
     }
 
     if (msgLen) {
-        mm = zeroMessage;
-
         // Mark messages received over the internet as remote so that we don't try to
         // pass them off as being received by this instance when forwarding them
-        mm.remote      =    1;
+        mm.remote = 1;
 
         // Grab the timestamp (big endian format)
         mm.timestampMsg = 0;
@@ -850,16 +846,14 @@ static int hexDigitVal(int c) {
 static int decodeHexMessage(struct client *c, char *hex) {
     int l = strlen(hex), j;
     unsigned char msg[MODES_LONG_MSG_BYTES];
-    struct modesMessage mm;
-    static struct modesMessage zeroMessage;
+    struct modesMessage mm = { 0 };
 
     MODES_NOTUSED(c);
-    mm = zeroMessage;
 
     // Mark messages received over the internet as remote so that we don't try to
     // pass them off as being received by this instance when forwarding them
-    mm.remote      =    1;
-    mm.signalLevel =    0;
+    mm.remote = 1;
+    mm.signalLevel = 0;
 
     // Remove spaces on the left and on the right
     while(l && isspace(hex[l-1])) {
