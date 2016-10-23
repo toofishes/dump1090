@@ -67,6 +67,10 @@
 //    handled via non-blocking I/O and manually polling clients to see if
 //    they have something new to share with us when reading is needed.
 
+static struct net_service *serviceInit(const char *descr, struct net_writer *writer, heartbeat_fn hb_handler, const char *sep, read_fn read_handler);
+static void serviceListen(struct net_service *service, char *bind_addr, char *bind_ports);
+static struct client *createSocketClient(struct net_service *service, int fd);
+
 static int decodeBinMessage(struct client *c, char *p);
 static int decodeHexMessage(struct client *c, char *hex);
 #ifdef ENABLE_WEBSERVER

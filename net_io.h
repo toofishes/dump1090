@@ -62,10 +62,7 @@ struct net_writer {
     heartbeat_fn send_heartbeat; // function that queues a heartbeat if needed
 };
 
-struct net_service *serviceInit(const char *descr, struct net_writer *writer, heartbeat_fn hb_handler, const char *sep, read_fn read_handler);
 struct client *serviceConnect(struct net_service *service, char *addr, int port);
-void serviceListen(struct net_service *service, char *bind_addr, char *bind_ports);
-struct client *createSocketClient(struct net_service *service, int fd);
 struct client *createGenericClient(struct net_service *service, int fd);
 
 // view1090 / faup1090 want to create these themselves:
