@@ -56,13 +56,12 @@
 // Return a new aircraft structure for the linked list of tracked
 // aircraft
 //
-struct aircraft *trackCreateAircraft(struct modesMessage *mm) {
-    static struct aircraft zeroAircraft;
-    struct aircraft *a = (struct aircraft *) malloc(sizeof(*a));
+static struct aircraft *trackCreateAircraft(struct modesMessage *mm) {
+    struct aircraft *a;
     int i;
 
     // Default everything to zero/NULL
-    *a = zeroAircraft;
+    a = (struct aircraft *) calloc(1, sizeof(*a));
 
     // Now initialise things that should not be 0/NULL to their defaults
     a->addr = mm->addr;
@@ -100,7 +99,7 @@ struct aircraft *trackCreateAircraft(struct modesMessage *mm) {
 // Return the aircraft with the specified address, or NULL if no aircraft
 // exists with this address.
 //
-struct aircraft *trackFindAircraft(uint32_t addr) {
+static struct aircraft *trackFindAircraft(uint32_t addr) {
     struct aircraft *a = Modes.aircrafts;
 
     while(a) {
