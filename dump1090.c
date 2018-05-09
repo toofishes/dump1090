@@ -1034,6 +1034,7 @@ int main(int argc, char **argv) {
         } else if (!strcmp(argv[j],"--aggressive")) {
 #ifdef ALLOW_AGGRESSIVE
             Modes.nfix_crc = MODES_MAX_BITERRORS;
+            Modes.net_verbatim = 1;
 #else
             fprintf(stderr, "warning: --aggressive not supported in this build, option ignored.\n");
 #endif
